@@ -5,10 +5,12 @@ require('dotenv').config()
 
 const resolvers = {
     Query: {
+        // fetches details of currently logged-in user
         async me(_, args, { user }) {
             if(!user) throw new Error("You are not authenticated")
             return await models.User.findBYPk(user.id)
         },
+        // fetches details of _a_ user based on their ID.
         async user(root, { id }, { user }) {
             try {
                 if(!user) throw new Error("You are not authenticated")
@@ -17,6 +19,7 @@ const resolvers = {
                 throw new Error(error.message)
             }
         },
+        // fetches details of all users.
         async allUsers(root, args, { user }) {
             try {
                 if (!user) throw new Error("You are not authenticated")
