@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jsonwebtoken = require('jsonwebtoken')
-const models = require('../models')
+const models = require('./models')
 require('dotenv').config()
 
 const resolvers = {
@@ -8,13 +8,13 @@ const resolvers = {
         // fetches details of currently logged-in user
         async me(_, args, { user }) {
             if(!user) throw new Error("You are not authenticated")
-            return await models.User.findBYPk(user.id)
+            return await models.User.findByPk(user.id)
         },
         // fetches details of _a_ user based on their ID.
         async user(root, { id }, { user }) {
             try {
                 if(!user) throw new Error("You are not authenticated")
-                return models.User.findBYPk(id)
+                return models.User.findByPk(id)
             } catch (error) {
                 throw new Error(error.message)
             }
@@ -23,7 +23,7 @@ const resolvers = {
         async allUsers(root, args, { user }) {
             try {
                 if (!user) throw new Error("You are not authenticated")
-                return models.User.findall()
+                return models.User.findAll()
             } catch (error) {
                 throw new Error(error.message)
             }
